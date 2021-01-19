@@ -23,8 +23,8 @@ play word guess lives | word == guess = win
         ch <- getLine
 
         -- New guess and lives are calculated
-        let newGuess = [ if (toLower (ch!!0) == w || w == g) then w else '-' | (w, g) <- zip word guess]
-        let newLives = if (toLower (ch!!0)) `elem` word then lives else lives-1
+        let newGuess = [ if toLower (head ch) == w || w == g then w else '-' | (w, g) <- zip word guess]
+        let newLives = if toLower (head ch) `elem` word then lives else lives-1
 
         -- Print the current word progress and lives left
         printWord word newGuess
@@ -35,15 +35,17 @@ play word guess lives | word == guess = win
 
 -- Player lost
 lose :: IO ()
-lose = do
-    putStrLn "You Lost!"
+lose = putStrLn "You Lost!"
 
 -- Player won
 win :: IO ()
-win = do
-    putStrLn "You won!"
+win = putStrLn "You won!"
 
 -- Prints the current word progress
 printWord :: String -> String -> IO ()
-printWord word guess = do
+printWord word guess =
     putStrLn $ "Word is: " ++ [if ch `elem` guess then ch else '-' | ch <- word]
+
+
+-- State monad
+-- Pattern matcha första karaktären - word
